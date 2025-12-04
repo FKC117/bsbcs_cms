@@ -1,0 +1,11 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}
+    <div style="margin-top: 20px;">
+        <h2>Custom Links</h2>
+        <ul>
+            <li><a href="{% url 'global_dashboard' %}">Dashboard</a></li>
+        </ul>
+    </div>
+{% endblock %}
