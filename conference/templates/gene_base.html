@@ -13,7 +13,11 @@
     <!-- Open Graph Metadata for Social Sharing -->
     <meta property="og:title" content="{{ event.name }} {{ event.year }}">
     <meta property="og:description" content="{{ event.description }}">
+    {% if event.og_image %}
     <meta property="og:image" content="{{ event.og_image.url }}">
+    {% elif event.event_logo %}
+    <meta property="og:image" content="{{ event.event_logo.url }}">
+    {% endif %}
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:type" content="website">
     
