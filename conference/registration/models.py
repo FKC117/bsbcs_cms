@@ -85,7 +85,7 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.name} {self.year}"
     def get_absolute_url(self):
-        return reverse('registration:home', args=[self.id])
+        return reverse('registration:home', args=[self.id])  # type: ignore[attr-defined]
 
 
 
@@ -275,7 +275,7 @@ class TimeSlot(models.Model):
             hall_room=self.hall_room,
             start_time__lt=self.end_time,
             end_time__gt=self.start_time
-        ).exclude(id=self.id)
+        ).exclude(id=self.id)  # type: ignore[attr-defined]
 
         if overlapping_time_slots.exists():
             raise ValidationError(_("This time slot overlaps with another time slot in the same program day and hall room."))

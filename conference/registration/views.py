@@ -82,7 +82,7 @@ from django.urls import reverse_lazy
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'change_password.html'
 
-    def get_success_url(self):
+    def get_success_url(self):  # type: ignore[override]
         return reverse_lazy('password_change_done')
 
 # Custom Password Change View ENDS ---------------------------------------------------------------###
@@ -93,7 +93,7 @@ class CustomPasswordResetView(PasswordResetView):
     template_name = 'password_reset_form.html'
     email_template_name = 'password_reset_email.html'
 
-    def get_success_url(self):
+    def get_success_url(self):  # type: ignore[override]
         return reverse_lazy('password_reset_done')
 
 # Custom Password Reset View ENDS ---------------------------------------------------------------###
@@ -291,7 +291,7 @@ def registration(request, event_id):
                 participant.save()
 
                 # Generate unique merchant invoice number for free events
-                merchant_invoice_number = f"REG-{event.id}-{request.user.id}-{int(time.time())}"
+                merchant_invoice_number = f"REG-{event.id}-{request.user.id}-{int(time.time())}"  # type: ignore[attr-defined]
                 
                 # Create payment status based on event payment requirement
                 if event.payment_required and event.amount:
@@ -314,7 +314,7 @@ def registration(request, event_id):
                 
                 send_registration_form_submission_email(participant)
                 messages.success(request, 'Registration form submitted successfully!')
-                return redirect('registration:registration_submitted', event_id=event.id)
+                return redirect('registration:registration_submitted', event_id=event.id)  # type: ignore[attr-defined]
             except IntegrityError as e:
                 print(f"IntegrityError: {e}")  # Debugging line
                 messages.error(request, 'A participant with this email or phone number already exists for this event.')
@@ -329,7 +329,7 @@ from django.shortcuts import render, get_object_or_404
 
 def registration_submitted(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    print(f"Event ID: {event.id}")  # Log to console to check
+    print(f"Event ID: {event.id}")  # type: ignore[attr-defined]  # Log to console to check
     return render(request, 'registration_submitted.html', {'event': event})
 
 def registration_message(request, event_id):
@@ -498,7 +498,7 @@ def abstract_submission(request, event_id):
                     messages.success(request, 'Abstract submitted successfully!')
                 except Exception as e:
                     messages.warning(request, f'ABstract SUbmitted but an error occured while sending the mail: {e}')
-                return redirect('registration:submission_success', event_id=event.id)
+                return redirect('registration:submission_success', event_id=event.id)  # type: ignore[attr-defined]
             except IntegrityError as e:
                 messages.error(request, f'An error occurred while saving your abstract: {e}')
         else:
@@ -807,7 +807,7 @@ def payment(request, event_id, participant_id):
                 messages.error(request, "Phone number not found.")
                 return redirect('index')
 
-            merchant_invoice_number = f"INV-{event.id}-{request.user.id}-{int(time.time())}"
+            merchant_invoice_number = f"INV-{event.id}-{request.user.id}-{int(time.time())}"  # type: ignore[attr-defined]
             callback_url = request.build_absolute_uri(
                 reverse_lazy('registration:payment_success', kwargs={'event_id': event_id, 'participant_id': participant_id})
             ) + f"?merchant_invoice_number={merchant_invoice_number}"
@@ -815,11 +815,11 @@ def payment(request, event_id, participant_id):
             
             print(f"Merchant Invoice Number sent to bkash: {merchant_invoice_number}")
             
-            if payment_response and payment_response.get("statusCode") == "0000":
+            if payment_response and payment_response.get("statusCode") == "0000":  # type: ignore[union-attr]
                 # Redirect to bKash payment page
                 return redirect(payment_response["bkashURL"])
             else:
-                messages.error(request, f"Payment failed: {payment_response.get('statusMessage')}")
+                messages.error(request, f"Payment failed: {payment_response.get('statusMessage')}")  # type: ignore[union-attr]
                 return redirect('index')
 
         except Exception as e:
@@ -1135,7 +1135,7 @@ def event_feedback_view(request, event_id):
         return render(request, 'feedback_access_denied.html', {'event': event})
 
     # Get all feedback questions for the event
-    questions = event.feedback_questions.all()
+    questions = event.feedback_questions.all()  # type: ignore[attr-defined]
 
     if request.method == 'POST':
         # Save feedback responses for the confirmed participant
@@ -1260,7 +1260,7 @@ def global_dashboard(request):
 
     event_metrics = []
     for event in events:
-        if event_filter and str(event.id) != event_filter:
+        if event_filter and str(event.id) != event_filter:  # type: ignore[attr-defined]
             continue
         metrics = {
             'name': event.name,
