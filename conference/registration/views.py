@@ -134,18 +134,18 @@ def user_login(request):
     form.fields['username'].label = "Email"
     if form.is_valid():
         login(request, form.get_user())
-        # Redirect to the 'next' parameter or the index page
+        # Redirect to the 'next' parameter or the website homepage
         next_url = request.GET.get('next')  # Get 'next' from GET data
         if next_url:
             return redirect(next_url)
-        return redirect(reverse('index'))  # Use reverse to resolve the URL name
+        return redirect(reverse('website:homepage'))  # Redirect to website homepage
 
     return render(request, 'login.html', {'form': form})
 
 
 def user_logout(request):
     logout(request)
-    return redirect('index')
+    return redirect(reverse('website:homepage'))  # Redirect to website homepage
 
 # Login and logout view ENDS -----------------------------------------------------------------------------------###
 

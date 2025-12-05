@@ -67,11 +67,6 @@
                         <a href="{% url 'website:events' %}" class="text-text-secondary hover:text-primary transition-colors">Events</a>
                         <a href="{% url 'website:webinars' %}" class="text-text-secondary hover:text-primary transition-colors">Webinars</a>
                     {% endif %}
-                    {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
-                        <a href="{{ call_to_action.primary_button_url }}" class="btn-primary">{{ call_to_action.primary_button_text }}</a>
-                    {% else %}
-                        <a href="{% url 'website:about' %}" class="btn-primary">Join Society</a>
-                    {% endif %}
                 </div>
 
                 <!-- Auth / Profile links (Desktop) -->
@@ -87,6 +82,13 @@
                     {% else %}
                         <a href="{% url 'create_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Create Profile</a>
                         <a href="{% url 'login' %}" class="text-text-secondary hover:text-primary transition-colors">Login</a>
+                    {% endif %}
+                    
+                    <!-- Join Society CTA Button (Last) -->
+                    {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
+                        <a href="{{ call_to_action.primary_button_url }}" class="btn-primary">{{ call_to_action.primary_button_text }}</a>
+                    {% else %}
+                        <a href="{% url 'website:about' %}" class="btn-primary">Join Society</a>
                     {% endif %}
                 </div>
 
