@@ -2,6 +2,7 @@ from django.conf import settings
 from django.urls import path, reverse_lazy
 from django.conf.urls.static import static
 from . import views
+from website import views as website_views
 from django.contrib.auth import views as auth_views
 from .views import (
     home,
@@ -34,6 +35,8 @@ app_name = 'registration'  # Define app_name
 
 # Update URL pattern
 urlpatterns = [
+    # HTML sitemap for the registration/events area (shares the website sitemap view)
+    path('sitemap/', website_views.sitemap_table, name='sitemap_table'),
     # URL patterns for the app.
     path('<int:event_id>/home/', views.home, name='home'),  # Ensure this path is correct
 

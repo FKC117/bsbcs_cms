@@ -14,4 +14,6 @@ urlpatterns = [
     path('webinars/', views.webinars, name='webinars'),
     path('webinars/<int:pk>/', views.webinar_detail, name='webinar_detail'),
     path('favicon.ico', views.favicon),
+    # HTML sitemap for human visitors
+    path('sitemap/', views.sitemap_table, name='sitemap_table'),
 ]

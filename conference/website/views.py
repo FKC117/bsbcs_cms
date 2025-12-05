@@ -328,3 +328,107 @@ def webinar_detail(request, pk):
         'navigation_links': navigation_links,
     }
     return render(request, 'pages/webinar_detail.html', context)
+
+
+def sitemap_table(request):
+    """Render a human-friendly, tabular sitemap page.
+
+    Collects entries from the existing sitemap classes in
+    `registration.sitemaps` and builds a list of rows with the
+    following columns: URL, Title, Last modified, Changefreq, Priority.
+    """
+    from registration.sitemaps import (
+        EventSitemap,
+        StaticViewSitemap,
+        PublicationSitemap,
+        WebsiteStaticSitemap,
+        WebinarSitemap,
+    )
+
+    sitemap_instances = [
+        WebsiteStaticSitemap(),
+        EventSitemap(),
+        WebinarSitemap(),
+        PublicationSitemap(),
+        StaticViewSitemap(),
+    ]
+
+    rows = []
+
+    # Friendly titles for well-known static names
+    static_title_map = {
+        'website:homepage': 'Home',
+        'website:about': 'About',
+        'website:member_directory': 'Members',
+        'website:research_and_publications': 'Research & Publications',
+        'website:knowledge_center': 'Resources',
+        'website:events': 'Events',
+        'website:webinars': 'Webinars',
+    }
+
+    for sm in sitemap_instances:
+        changefreq = getattr(sm, 'changefreq', '')
+        priority = getattr(sm, 'priority', '')
+        try:
+            items = list(sm.items())
+        except Exception:
+            items = []
+
+        for item in items:
+            # location may raise, guard it
+            try:
+                loc = sm.location(item)
+            except Exception:
+                # fallback: try str()
+                try:
+                    loc = str(item)
+                except Exception:
+                    loc = ''
+
+            # lastmod if provided
+            lastmod = None
+            if hasattr(sm, 'lastmod'):
+                try:
+                    lastmod = sm.lastmod(item)
+                except Exception:
+                    lastmod = None
+
+            # Determine a human-friendly title
+            title = None
+            # If the sitemap item is a named URL (string)
+            if isinstance(item, str):
+                title = static_title_map.get(item, item.replace('website:', '').replace('_', ' ').title())
+            # If tuple used by StaticViewSitemap (('about', event_id))
+            elif isinstance(item, (list, tuple)):
+                try:
+                    url_name = item[0]
+                    arg = item[1] if len(item) > 1 else ''
+                    title = f"{url_name.replace('_', ' ').title()} (Event {arg})"
+                except Exception:
+                    title = str(item)
+            else:
+                # Model instances: try common fields
+                title = getattr(item, 'title', None) or getattr(item, 'name', None) or getattr(item, 'get_short_name', None)
+                if callable(title):
+                    try:
+                        title = title()
+                    except Exception:
+                        title = None
+                if not title:
+                    try:
+                        title = str(item)
+                    except Exception:
+                        title = ''
+
+            rows.append({
+                'loc': loc,
+                'title': title,
+                'lastmod': lastmod,
+                'changefreq': changefreq,
+                'priority': priority,
+            })
+
+    context = {
+        'rows': rows,
+    }
+    return render(request, 'pages/sitemap_table.html', context)
