@@ -4,6 +4,12 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from .models import Event, AbstractSubmission
 
+# Import website models for sitemap entries
+try:
+    from website.models import Webinar
+except Exception:
+    Webinar = None
+
 class EventSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.8
@@ -14,8 +20,8 @@ class EventSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.updated_at
 
-    def location(self, obj):
-        return reverse('registration:home', args=[obj.id])
+    def location(self, item):
+        return reverse('registration:home', args=[item.id])
 # registration/sitemaps.py
 
 class StaticViewSitemap(Sitemap):
@@ -45,5 +51,44 @@ class PublicationSitemap(Sitemap):
     def lastmod(self, obj):
         return obj.updated_at
 
-    def location(self, obj):
-        return reverse('registration:publication_detail', args=[obj.event.id, obj.id])
+    def location(self, item):
+        return reverse('registration:publication_detail', args=[item.event.id, item.id])
+
+
+class WebsiteStaticSitemap(Sitemap):
+    """Static pages exposed by the `website` app."""
+    changefreq = 'weekly'
+    priority = 0.6
+
+    def items(self):
+        # Use the URL names (namespaced) so `location` can reverse them
+        return [
+            'website:homepage',
+            'website:about',
+            'website:member_directory',
+            'website:research_and_publications',
+            'website:knowledge_center',
+            'website:events',
+            'website:webinars',
+        ]
+
+    def location(self, item):
+        return reverse(item)
+
+
+class WebinarSitemap(Sitemap):
+    """Sitemap for individual webinar detail pages."""
+    changefreq = 'monthly'
+    priority = 0.5
+
+    def items(self):
+        if Webinar is None:
+            return []
+        return Webinar.objects.all().order_by('-id')
+
+    def lastmod(self, obj):
+        # If Webinar has updated timestamp, use it; otherwise skip
+        return getattr(obj, 'updated_at', None)
+
+    def location(self, item):
+        return reverse('website:webinar_detail', args=[item.pk])

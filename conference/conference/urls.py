@@ -5,7 +5,13 @@ from django.urls import path, include, reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
-from registration.sitemaps import EventSitemap, StaticViewSitemap, PublicationSitemap
+from registration.sitemaps import (
+    EventSitemap,
+    StaticViewSitemap,
+    PublicationSitemap,
+    WebsiteStaticSitemap,
+    WebinarSitemap,
+)
 from registration import views
 from registration.views import global_dashboard
 
@@ -13,6 +19,8 @@ sitemaps = {
     'events': EventSitemap,
     'static': StaticViewSitemap,
     'publications': PublicationSitemap,
+    'website': WebsiteStaticSitemap,
+    'webinars': WebinarSitemap,
 }
 
 
