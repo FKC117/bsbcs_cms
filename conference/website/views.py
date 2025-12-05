@@ -209,20 +209,44 @@ def member_directory(request):
 
 
 def events(request):
+    # Render the legacy registration index at /events/
+    # Use the registration app's Event model (has fields like start_date, end_date, event_status)
+    try:
+        from registration.models import Event as RegEvent, UserProfile as RegUserProfile
+    except Exception:
+        RegEvent = Event  # fallback to local Event model
+        RegUserProfile = None
+
+    user_profile = None
+    if request.user.is_authenticated and RegUserProfile:
+        try:
+            user_profile = RegUserProfile.objects.get(user=request.user)
+        except RegUserProfile.DoesNotExist:  # type: ignore[name-defined]
+            user_profile = None
+
     hero = HeroSection.objects.filter(page='events').first()
     news_tickers = NewsTickerItem.objects.filter(is_active=True).order_by('order')
-    events_list = Event.objects.all().order_by('order', 'date')
+
+    # Mirror registration.index view behavior: group events by status
+    active_events = RegEvent.objects.filter(event_status='active').order_by('-start_date')
+    upcoming_events = RegEvent.objects.filter(event_status='upcoming').order_by('start_date')
+    closed_events = RegEvent.objects.filter(event_status='closed').order_by('-end_date')
+
     call_to_action = CallToAction.objects.filter(page='events').first()
     navigation_links = NavigationLink.objects.filter(is_active=True).order_by('order')
 
     context = {
+        'user_profile': user_profile,
         'hero': hero,
         'news_tickers': news_tickers,
-        'events': events_list,
+        'active_events': active_events,
+        'upcoming_events': upcoming_events,
+        'closed_events': closed_events,
         'call_to_action': call_to_action,
         'navigation_links': navigation_links,
     }
-    return render(request, 'pages/events.html', context)
+    # Render the shared index template so /events/ behaves like the old index page
+    return render(request, 'index.html', context)
 
 
 def research_and_publications(request):
