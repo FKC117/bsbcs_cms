@@ -62,9 +62,9 @@
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         {% if user.is_authenticated %}
           <span class="text-sm font-semibold leading-6 text-gray-900"></span>
-          <a href="{% url 'registration:logout' event.id %}" class="ml-4 text-sm font-semibold leading-6 text-gray-900">Logout</a>
+          <a href="{% url 'logout' %}" class="ml-4 text-sm font-semibold leading-6 text-gray-900">Logout</a>
           <span class="ml-1 text-sm font-semibold leading-6 text-gray-900">|</span>
-          <a href="{% url 'registration:user_profile' event.id %}" class="ml-1 text-sm font-semibold leading-6 text-gray-900">User Profile</a>
+          <a href="{% url 'user_profile' %}" class="ml-1 text-sm font-semibold leading-6 text-gray-900">User Profile</a>
         {% else %}
           <a href="{% url 'registration:login' event.id%}" class="text-sm font-semibold leading-6 text-gray-900">Login</a>
         {% endif %}
@@ -95,10 +95,10 @@
         <a href="{% url 'registration:sponsor_list' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Sponsorship</a>
         <a href="{% url 'registration:event_gallery' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Gallery</a>
         {% if user.is_authenticated %}
-          <a href="{% url 'registration:user_profile' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Profile</a>
-          <a href="{% url 'registration:logout' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Logout</a>
+          <a href="{% url 'user_profile' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Profile</a>
+          <a href="{% url 'logout' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Logout</a>
         {% else %}
-          <a href="{% url 'registration:login' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Login</a>
+          <a href="{% url 'login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Login</a>
         {% endif %}
       </div>
     </div>

@@ -74,6 +74,22 @@
                     {% endif %}
                 </div>
 
+                <!-- Auth / Profile links (Desktop) -->
+                <div class="hidden lg:flex items-center gap-4">
+                    {% if user.is_authenticated %}
+                        {% if user_profile and user_profile.name %}
+                            <span class="text-sm text-text-secondary">Welcome, {{ user_profile.name }}</span>
+                        {% else %}
+                            <span class="text-sm text-text-secondary">Welcome, {{ user.get_full_name|default:user.username }}</span>
+                        {% endif %}
+                        <a href="{% url 'user_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Profile</a>
+                        <a href="{% url 'logout' %}" class="text-text-secondary hover:text-primary transition-colors">Logout</a>
+                    {% else %}
+                        <a href="{% url 'create_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Create Profile</a>
+                        <a href="{% url 'login' %}" class="text-text-secondary hover:text-primary transition-colors">Login</a>
+                    {% endif %}
+                </div>
+
                 <!-- Mobile Menu Button -->
                 <button id="mobileMenuBtn" class="lg:hidden p-2 text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,11 +118,35 @@
                         <a href="{% url 'website:events' %}" class="text-text-secondary hover:text-primary transition-colors">Events</a>
                         <a href="{% url 'website:webinars' %}" class="text-text-secondary hover:text-primary transition-colors">Webinars</a>
                     {% endif %}
-                    {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
-                        <a href="{{ call_to_action.primary_button_url }}" class="btn-primary w-full">{{ call_to_action.primary_button_text }}</a>
-                    {% else %}
-                        <a href="{% url 'website:about' %}" class="btn-primary w-full">Join Society</a>
-                    {% endif %}
+                    
+                    <!-- Mobile Auth Links -->
+                    <div class="border-t border-border pt-4">
+                        {% if user.is_authenticated %}
+                            <div class="flex flex-col gap-2">
+                                {% if user_profile and user_profile.name %}
+                                    <span class="text-sm font-semibold text-text-secondary">Welcome, {{ user_profile.name }}</span>
+                                {% else %}
+                                    <span class="text-sm font-semibold text-text-secondary">Welcome, {{ user.get_full_name|default:user.username }}</span>
+                                {% endif %}
+                                <a href="{% url 'user_profile' %}" class="text-sm text-text-secondary hover:text-primary transition-colors py-2">Profile</a>
+                                <a href="{% url 'logout' %}" class="text-sm text-text-secondary hover:text-primary transition-colors py-2">Logout</a>
+                            </div>
+                        {% else %}
+                            <div class="flex flex-col gap-2">
+                                <a href="{% url 'create_profile' %}" class="text-sm text-text-secondary hover:text-primary transition-colors py-2">Create Profile</a>
+                                <a href="{% url 'login' %}" class="text-sm text-text-secondary hover:text-primary transition-colors py-2">Login</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- CTA Button -->
+                    <div class="border-t border-border pt-4">
+                        {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
+                            <a href="{{ call_to_action.primary_button_url }}" class="btn-primary w-full">{{ call_to_action.primary_button_text }}</a>
+                        {% else %}
+                            <a href="{% url 'website:about' %}" class="btn-primary w-full">Join Society</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </nav>
