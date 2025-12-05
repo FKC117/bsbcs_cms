@@ -26,7 +26,7 @@
                 <!-- Logo -->
                 <div class="flex items-center gap-3">
                     {% if site_settings and site_settings.logo %}
-                        <a href="{% url 'homepage' %}" class="flex items-center gap-3">
+                        <a href="{% url 'website:homepage' %}" class="flex items-center gap-3">
                             <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name|default:'BSBCS' }} logo" class="w-12 h-12 object-contain">
                             <div>
                                 <h1 class="text-xl font-headline font-bold text-primary">{{ site_settings.site_name|default:'BSBCS' }}</h1>
@@ -34,7 +34,7 @@
                             </div>
                         </a>
                     {% else %}
-                        <a href="{% url 'homepage' %}" class="flex items-center gap-3">
+                        <a href="{% url 'website:homepage' %}" class="flex items-center gap-3">
                             <svg class="w-12 h-12" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M24 4C20.5 4 17.5 6.5 17.5 10C17.5 12 18.5 13.8 20 15C15 16 11 20.5 11 26C11 32.6 16.4 38 23 38H25C31.6 38 37 32.6 37 26C37 20.5 33 16 28 15C29.5 13.8 30.5 12 30.5 10C30.5 6.5 27.5 4 24 4Z" fill="#E91E63"/>
                                 <path d="M24 40C24 40 20 42 20 44C20 45.1 20.9 46 22 46H26C27.1 46 28 45.1 28 44C28 42 24 40 24 40Z" fill="#1976D2"/>
@@ -52,21 +52,25 @@
                 <div class="hidden lg:flex items-center gap-8">
                     {% if navigation_links %}
                         {% for nav in navigation_links %}
-                            <a href="{{ nav.url }}" class="text-text-secondary hover:text-primary transition-colors">{{ nav.label }}</a>
+                            {% if nav.url|slice:":4" == "http" or nav.url|slice:":1" == "/" %}
+                                <a href="{{ nav.url }}" class="text-text-secondary hover:text-primary transition-colors">{{ nav.label }}</a>
+                            {% else %}
+                                <a href="/{{ nav.url }}" class="text-text-secondary hover:text-primary transition-colors">{{ nav.label }}</a>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'homepage' %}" class="text-text-secondary hover:text-primary transition-colors">Home</a>
-                        <a href="{% url 'about' %}" class="text-text-secondary hover:text-primary transition-colors">About</a>
-                        <a href="{% url 'member_directory' %}" class="text-text-secondary hover:text-primary transition-colors">Members</a>
-                        <a href="{% url 'research_and_publications' %}" class="text-text-secondary hover:text-primary transition-colors">Research</a>
-                        <a href="{% url 'knowledge_center' %}" class="text-text-secondary hover:text-primary transition-colors">Resources</a>
-                        <a href="{% url 'events' %}" class="text-text-secondary hover:text-primary transition-colors">Events</a>
-                        <a href="{% url 'webinars' %}" class="text-text-secondary hover:text-primary transition-colors">Webinars</a>
+                        <a href="{% url 'website:homepage' %}" class="text-text-secondary hover:text-primary transition-colors">Home</a>
+                        <a href="{% url 'website:about' %}" class="text-text-secondary hover:text-primary transition-colors">About</a>
+                        <a href="{% url 'website:member_directory' %}" class="text-text-secondary hover:text-primary transition-colors">Members</a>
+                        <a href="{% url 'website:research_and_publications' %}" class="text-text-secondary hover:text-primary transition-colors">Research</a>
+                        <a href="{% url 'website:knowledge_center' %}" class="text-text-secondary hover:text-primary transition-colors">Resources</a>
+                        <a href="{% url 'website:events' %}" class="text-text-secondary hover:text-primary transition-colors">Events</a>
+                        <a href="{% url 'website:webinars' %}" class="text-text-secondary hover:text-primary transition-colors">Webinars</a>
                     {% endif %}
                     {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
                         <a href="{{ call_to_action.primary_button_url }}" class="btn-primary">{{ call_to_action.primary_button_text }}</a>
                     {% else %}
-                        <a href="{% url 'about' %}" class="btn-primary">Join Society</a>
+                        <a href="{% url 'website:about' %}" class="btn-primary">Join Society</a>
                     {% endif %}
                 </div>
 
@@ -83,21 +87,25 @@
                 <div class="flex flex-col gap-4">
                     {% if navigation_links %}
                         {% for nav in navigation_links %}
-                            <a href="{{ nav.url }}" class="text-text-secondary hover:text-primary transition-colors">{{ nav.label }}</a>
+                            {% if nav.url|slice:":4" == "http" or nav.url|slice:":1" == "/" %}
+                                <a href="{{ nav.url }}" class="text-text-secondary hover:text-primary transition-colors">{{ nav.label }}</a>
+                            {% else %}
+                                <a href="/{{ nav.url }}" class="text-text-secondary hover:text-primary transition-colors">{{ nav.label }}</a>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
-                        <a href="{% url 'homepage' %}" class="text-text-secondary hover:text-primary transition-colors">Home</a>
-                        <a href="{% url 'about' %}" class="text-text-secondary hover:text-primary transition-colors">About</a>
-                        <a href="{% url 'member_directory' %}" class="text-text-secondary hover:text-primary transition-colors">Members</a>
-                        <a href="{% url 'research_and_publications' %}" class="text-text-secondary hover:text-primary transition-colors">Research</a>
-                        <a href="{% url 'knowledge_center' %}" class="text-text-secondary hover:text-primary transition-colors">Resources</a>
-                        <a href="{% url 'events' %}" class="text-text-secondary hover:text-primary transition-colors">Events</a>
-                        <a href="{% url 'webinars' %}" class="text-text-secondary hover:text-primary transition-colors">Webinars</a>
+                        <a href="{% url 'website:homepage' %}" class="text-text-secondary hover:text-primary transition-colors">Home</a>
+                        <a href="{% url 'website:about' %}" class="text-text-secondary hover:text-primary transition-colors">About</a>
+                        <a href="{% url 'website:member_directory' %}" class="text-text-secondary hover:text-primary transition-colors">Members</a>
+                        <a href="{% url 'website:research_and_publications' %}" class="text-text-secondary hover:text-primary transition-colors">Research</a>
+                        <a href="{% url 'website:knowledge_center' %}" class="text-text-secondary hover:text-primary transition-colors">Resources</a>
+                        <a href="{% url 'website:events' %}" class="text-text-secondary hover:text-primary transition-colors">Events</a>
+                        <a href="{% url 'website:webinars' %}" class="text-text-secondary hover:text-primary transition-colors">Webinars</a>
                     {% endif %}
                     {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
                         <a href="{{ call_to_action.primary_button_url }}" class="btn-primary w-full">{{ call_to_action.primary_button_text }}</a>
                     {% else %}
-                        <a href="{% url 'about' %}" class="btn-primary w-full">Join Society</a>
+                        <a href="{% url 'website:about' %}" class="btn-primary w-full">Join Society</a>
                     {% endif %}
                 </div>
             </div>
@@ -118,7 +126,7 @@
                 <div>
                     <div class="flex items-center gap-3 mb-4">
                         {% if site_settings and site_settings.logo %}
-                            <a href="{% url 'homepage' %}" class="flex items-center gap-3">
+                            <a href="{% url 'website:homepage' %}" class="flex items-center gap-3">
                                 <img src="{{ site_settings.logo.url }}" alt="{{ site_settings.site_name|default:'BSBCS' }} logo" class="w-10 h-10 object-contain">
                                 <div>
                                     <h3 class="text-lg font-headline font-bold text-white">{{ site_settings.site_name|default:'BSBCS' }}</h3>
@@ -126,7 +134,7 @@
                                 </div>
                             </a>
                         {% else %}
-                            <a href="{% url 'homepage' %}" class="flex items-center gap-3">
+                            <a href="{% url 'website:homepage' %}" class="flex items-center gap-3">
                                 <svg class="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M24 4C20.5 4 17.5 6.5 17.5 10C17.5 12 18.5 13.8 20 15C15 16 11 20.5 11 26C11 32.6 16.4 38 23 38H25C31.6 38 37 32.6 37 26C37 20.5 33 16 28 15C29.5 13.8 30.5 12 30.5 10C30.5 6.5 27.5 4 24 4Z" fill="#E91E63"/>
                                     <path d="M24 40C24 40 20 42 20 44C20 45.1 20.9 46 22 46H26C27.1 46 28 45.1 28 44C28 42 24 40 24 40Z" fill="#1976D2"/>
@@ -145,13 +153,13 @@
                 <div>
                     <h4 class="font-headline font-semibold mb-4 text-white text-sm">Menu</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{% url 'homepage' %}" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                        <li><a href="{% url 'about' %}" class="text-gray-400 hover:text-white transition-colors">About</a></li>
-                        <li><a href="{% url 'member_directory' %}" class="text-gray-400 hover:text-white transition-colors">Members</a></li>
-                        <li><a href="{% url 'research_and_publications' %}" class="text-gray-400 hover:text-white transition-colors">Research</a></li>
-                        <li><a href="{% url 'knowledge_center' %}" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
-                        <li><a href="{% url 'events' %}" class="text-gray-400 hover:text-white transition-colors">Events</a></li>
-                        <li><a href="{% url 'webinars' %}" class="text-gray-400 hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="{% url 'website:homepage' %}" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="{% url 'website:about' %}" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="{% url 'website:member_directory' %}" class="text-gray-400 hover:text-white transition-colors">Members</a></li>
+                        <li><a href="{% url 'website:research_and_publications' %}" class="text-gray-400 hover:text-white transition-colors">Research</a></li>
+                        <li><a href="{% url 'website:knowledge_center' %}" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
+                        <li><a href="{% url 'website:events' %}" class="text-gray-400 hover:text-white transition-colors">Events</a></li>
+                        <li><a href="{% url 'website:webinars' %}" class="text-gray-400 hover:text-white transition-colors">Webinars</a></li>
                     </ul>
                 </div>
 

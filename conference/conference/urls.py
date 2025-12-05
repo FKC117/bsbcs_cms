@@ -19,7 +19,9 @@ sitemaps = {
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', global_dashboard, name='global_dashboard'),
-    path('', views.index, name='index'),
+    path('', include(('website.urls', 'website'), namespace='website')),
+    path('index/', views.index, name='index'),
+
     path('create-profile/', views.create_profile,name='create_profile'),
     path('event/', include(('registration.urls', 'registration'), namespace='registration')),
 

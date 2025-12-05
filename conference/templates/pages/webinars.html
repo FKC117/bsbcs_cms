@@ -70,7 +70,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 {% if webinars.object_list %}
                     {% for webinar in webinars.object_list %}
-                        <a href="{% url 'webinar_detail' webinar.pk %}" class="card-elevated hover-lift hover-shadow group cursor-pointer transition-all duration-300">
+                        <a href="{% url 'website:webinar_detail' webinar.pk %}" class="card-elevated hover-lift hover-shadow group cursor-pointer transition-all duration-300">
                             <div class="relative mb-6 overflow-hidden rounded-lg">
                                 {% if webinar.video_url|youtube_thumbnail %}
                                     <img src="{{ webinar.video_url|youtube_thumbnail }}" alt="{{ webinar.title }}" class="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2940&auto=format&fit=crop'; this.onerror=null;">
@@ -206,7 +206,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 {% if preceptorship_webinars.object_list %}
                     {% for webinar in preceptorship_webinars.object_list %}
-                        <a href="{% url 'webinar_detail' webinar.pk %}" class="card-elevated hover-lift hover-shadow group cursor-pointer transition-all duration-300">
+                        <a href="{% url 'website:webinar_detail' webinar.pk %}" class="card-elevated hover-lift hover-shadow group cursor-pointer transition-all duration-300">
                             <div class="relative mb-6 overflow-hidden rounded-lg">
                                 {% if webinar.video_url|youtube_thumbnail %}
                                     <img src="{{ webinar.video_url|youtube_thumbnail }}" alt="{{ webinar.title }}" class="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2940&auto=format&fit=crop'; this.onerror=null;">
@@ -407,7 +407,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 {% if gci_webinars.object_list %}
                     {% for gci in gci_webinars.object_list %}
-                        <a href="{% url 'webinar_detail' gci.pk %}" class="card-elevated hover-lift hover-shadow group cursor-pointer transition-all duration-300">
+                        <a href="{% url 'website:webinar_detail' gci.pk %}" class="card-elevated hover-lift hover-shadow group cursor-pointer transition-all duration-300">
                             <div class="relative mb-6 overflow-hidden rounded-lg">
                                 {% if gci.video_url|youtube_thumbnail %}
                                     <img src="{{ gci.video_url|youtube_thumbnail }}" alt="{{ gci.title }}" class="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2940&auto=format&fit=crop'; this.onerror=null;">

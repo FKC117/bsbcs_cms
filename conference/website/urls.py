@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    # Alias so /homepage also works (keeps root '' as primary)
+    path('homepage/', views.homepage, name='homepage_alias'),
     path('about/', views.about, name='about'),
     path('knowledge-center/', views.knowledge_center, name='knowledge_center'),
     path('member-directory/', views.member_directory, name='member_directory'),

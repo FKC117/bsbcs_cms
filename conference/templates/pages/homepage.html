@@ -40,8 +40,8 @@
                                                     <a href="{{ call_to_action.secondary_button_url }}" class="btn-outline">{{ call_to_action.secondary_button_text }}</a>
                                                 {% endif %}
                                             {% else %}
-                                                <a href="{% url 'research_and_publications' %}" class="btn-primary">Explore Research</a>
-                                                <a href="{% url 'member_directory' %}" class="btn-outline">Become a Member</a>
+                                                <a href="{% url 'website:research_and_publications' %}" class="btn-primary">Explore Research</a>
+                                                <a href="{% url 'website:member_directory' %}" class="btn-outline">Become a Member</a>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -83,8 +83,8 @@
                                                 <a href="{{ call_to_action.secondary_button_url }}" class="btn-outline">{{ call_to_action.secondary_button_text }}</a>
                                             {% endif %}
                                         {% else %}
-                                            <a href="{% url 'research_and_publications' %}" class="btn-primary">Explore Research</a>
-                                            <a href="{% url 'member_directory' %}" class="btn-outline">Become a Member</a>
+                                            <a href="{% url 'website:research_and_publications' %}" class="btn-primary">Explore Research</a>
+                                            <a href="{% url 'website:member_directory' %}" class="btn-outline">Become a Member</a>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
         <div class="container-custom">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Quick Access Card 1 -->
-                <a href="{% url 'member_directory' %}" class="card hover-lift hover-shadow group">
+                <a href="{% url 'website:member_directory' %}" class="card hover-lift hover-shadow group">
                     <div class="flex items-start gap-4">
                         <div class="p-3 bg-primary-50 rounded-lg group-hover:bg-primary-100 transition-colors">
                             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +155,7 @@
                 </a>
 
                 <!-- Quick Access Card 2 -->
-                <a href="{% url 'research_and_publications' %}" class="card hover-lift hover-shadow group">
+                <a href="{% url 'website:research_and_publications' %}" class="card hover-lift hover-shadow group">
                     <div class="flex items-start gap-4">
                         <div class="p-3 bg-secondary-50 rounded-lg group-hover:bg-secondary-100 transition-colors">
                             <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,7 +170,7 @@
                 </a>
 
                 <!-- Quick Access Card 3 -->
-                <a href="{% url 'knowledge_center' %}" class="card hover-lift hover-shadow group">
+                <a href="{% url 'website:knowledge_center' %}" class="card hover-lift hover-shadow group">
                     <div class="flex items-start gap-4">
                         <div class="p-3 bg-accent-50 rounded-lg group-hover:bg-accent-100 transition-colors">
                             <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,7 +185,7 @@
                 </a>
 
                 <!-- Quick Access Card 4 -->
-                <a href="{% url 'events' %}" class="card hover-lift hover-shadow group">
+                <a href="{% url 'website:events' %}" class="card hover-lift hover-shadow group">
                     <div class="flex items-start gap-4">
                         <div class="p-3 bg-warning-light rounded-lg group-hover:bg-warning transition-colors">
                             <svg class="w-8 h-8 text-warning-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -295,7 +295,7 @@
                             <h3 class="text-xl font-headline font-semibold text-text-primary mb-2">{{ member.name }}</h3>
                             <p class="text-sm text-secondary font-semibold mb-3">{{ member.title }}</p>
                             <p class="text-text-secondary mb-4 leading-relaxed">{{ member.description }}</p>
-                            <a href="{% if member.profile_url %}{{ member.profile_url }}{% else %}{% url 'member_directory' %}{% endif %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                            <a href="{% if member.profile_url %}{{ member.profile_url }}{% else %}{% url 'website:member_directory' %}{% endif %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                                 View Profile
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -315,7 +315,7 @@
                         <h3 class="text-xl font-headline font-semibold text-text-primary mb-2">Dr. Fatima Rahman</h3>
                         <p class="text-sm text-secondary font-semibold mb-3">Medical Oncologist</p>
                         <p class="text-text-secondary mb-4 leading-relaxed">Pioneering research in targeted therapy for triple-negative breast cancer, with 15+ years of clinical excellence.</p>
-                        <a href="{% url 'member_directory' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                        <a href="{% url 'website:member_directory' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                             View Profile
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -330,7 +330,7 @@
                         <h3 class="text-xl font-headline font-semibold text-text-primary mb-2">Dr. Ahmed Hassan</h3>
                         <p class="text-sm text-secondary font-semibold mb-3">Surgical Oncologist</p>
                         <p class="text-text-secondary mb-4 leading-relaxed">Leading expert in minimally invasive breast surgery techniques, advancing patient recovery outcomes.</p>
-                        <a href="{% url 'member_directory' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                        <a href="{% url 'website:member_directory' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                             View Profile
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -345,7 +345,7 @@
                         <h3 class="text-xl font-headline font-semibold text-text-primary mb-2">Dr. Nusrat Jahan</h3>
                         <p class="text-sm text-secondary font-semibold mb-3">Radiologist</p>
                         <p class="text-text-secondary mb-4 leading-relaxed">Advancing early detection through AI-enhanced imaging technology, improving diagnostic accuracy.</p>
-                        <a href="{% url 'member_directory' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                        <a href="{% url 'website:member_directory' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                             View Profile
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -365,7 +365,7 @@
                     <h2 class="text-3xl md:text-4xl font-headline font-bold text-text-primary mb-4">Latest Research Highlights</h2>
                     <p class="text-lg text-text-secondary">Breakthrough studies advancing breast cancer treatment</p>
                 </div>
-                <a href="{% url 'research_and_publications' %}" class="btn-primary mt-4 md:mt-0">View All Research</a>
+                <a href="{% url 'website:research_and_publications' %}" class="btn-primary mt-4 md:mt-0">View All Research</a>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
@@ -409,7 +409,7 @@
                                     </svg>
                                 </a>
                             {% else %}
-                                <a href="{% url 'research_and_publications' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                                <a href="{% url 'website:research_and_publications' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                                     Read Full Study
                                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -433,7 +433,7 @@
                                 <p class="text-sm text-text-secondary">Lead Researcher</p>
                             </div>
                         </div>
-                        <a href="{% url 'research_and_publications' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                                <a href="{% url 'website:research_and_publications' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                             Read Full Study
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -454,7 +454,7 @@
                                 <p class="text-sm text-text-secondary">Principal Investigator</p>
                             </div>
                         </div>
-                        <a href="{% url 'research_and_publications' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
+                        <a href="{% url 'website:research_and_publications' %}" class="inline-flex items-center text-primary font-semibold hover:text-primary-700 transition-colors">
                             Read Full Study
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -474,7 +474,7 @@
                     <h2 class="text-3xl md:text-4xl font-headline font-bold text-text-primary mb-4">Upcoming Events</h2>
                     <p class="text-lg text-text-secondary">Join us for educational opportunities and professional development</p>
                 </div>
-                <a href="{% url 'events' %}" class="btn-outline mt-4 md:mt-0">View All Events</a>
+                <a href="{% url 'website:events' %}" class="btn-outline mt-4 md:mt-0">View All Events</a>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8">
@@ -581,8 +581,8 @@
                             <a href="{{ call_to_action.secondary_button_url }}" class="btn bg-transparent border-2 border-white text-white hover:bg-white/10 focus:ring-white">{{ call_to_action.secondary_button_text }}</a>
                         {% endif %}
                     {% else %}
-                        <a href="{% url 'member_directory' %}" class="btn bg-white text-secondary hover:bg-secondary-50 focus:ring-white">Apply for Membership</a>
-                        <a href="{% url 'research_and_publications' %}" class="btn bg-transparent border-2 border-white text-white hover:bg-white/10 focus:ring-white">Learn More</a>
+                        <a href="{% url 'website:member_directory' %}" class="btn bg-white text-secondary hover:bg-secondary-50 focus:ring-white">Apply for Membership</a>
+                        <a href="{% url 'website:research_and_publications' %}" class="btn bg-transparent border-2 border-white text-white hover:bg-white/10 focus:ring-white">Learn More</a>
                     {% endif %}
                 </div>
             </div>

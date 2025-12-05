@@ -304,14 +304,23 @@
                         </div>
                         <p class="text-text-secondary text-sm mb-4">{{ committee.description }}</p>
                         {% if committee.link_to_members %}
-                            <a href="{{ committee.link_to_members }}" class="inline-flex items-center text-primary text-sm font-semibold hover:text-primary-700 transition-colors">
-                                View Members
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                </svg>
-                            </a>
+                            {% if committee.link_to_members|slice:":4" == "http" or committee.link_to_members|slice:":1" == "/" %}
+                                <a href="{{ committee.link_to_members }}" class="inline-flex items-center text-primary text-sm font-semibold hover:text-primary-700 transition-colors">
+                                    View Members
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'website:member_directory' %}" class="inline-flex items-center text-primary text-sm font-semibold hover:text-primary-700 transition-colors">
+                                    View Members
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            {% endif %}
                         {% else %}
-                            <a href="member_directory.html" class="inline-flex items-center text-primary text-sm font-semibold hover:text-primary-700 transition-colors">
+                            <a href="{% url 'website:member_directory' %}" class="inline-flex items-center text-primary text-sm font-semibold hover:text-primary-700 transition-colors">
                                 View Members
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
