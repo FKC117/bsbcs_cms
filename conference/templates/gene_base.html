@@ -49,6 +49,7 @@
         </span>
       </div>
       <div class="hidden lg:flex lg:gap-x-10">
+        <a href="{% url 'website:homepage' %}" class="text-sm font-semibold leading-4 text-gray-900">Main Website</a>
         <a href="{% url 'registration:home' event.id %}" class="text-sm font-semibold leading-4 text-gray-900">Home</a>
         <a href="{% url 'registration:about' event.id %}" class="text-sm font-semibold leading-4 text-gray-900">About</a>
         <a href="{% url 'registration:invitation' event.id %}" class="text-sm font-semibold leading-4 text-gray-900">Invitation</a>
@@ -91,6 +92,7 @@
 
     <div class="lg:hidden" id="mobile-menu" style="display: none;">      
       <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="{% url 'website:homepage' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Main Website</a>
         <a href="{% url 'registration:home' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</a>
         <a href="{% url 'registration:about' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">About</a>
         <a href="{% url 'registration:invitation' event.id %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Invitation</a>

@@ -45,6 +45,7 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'conference.middleware.debug_event_type.DebugEventMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -229,6 +230,11 @@ LOGGING = {
         'django.security': {
             'handlers': ['file', 'console'],
             'level': 'INFO',
+            'propagate': False,
+        },
+        'debug_event': {
+            'handlers': ['file', 'console'],
+            'level': 'WARNING',
             'propagate': False,
         },
         'registration': {

@@ -3,14 +3,18 @@ from django.template.loader import get_template
 from django.template import TemplateDoesNotExist
 from pathlib import Path
 import os
-from django.http import FileResponse
+from django.http import FileResponse, Http404
 from django.conf import settings
 import re
 from django.core.paginator import Paginator
 
 def favicon(request):
     favicon_path = os.path.join(settings.BASE_DIR, 'website', 'static', 'img', 'favicon.ico')
-    return FileResponse(open(favicon_path, 'rb'))
+    try:
+        return FileResponse(open(favicon_path, 'rb'))
+    except FileNotFoundError:
+        # Return a proper 404 if favicon is missing instead of raising an unhandled exception
+        raise Http404("favicon not found")
 from django.shortcuts import render
 from .models import (
     HeroSection, CarouselItem, NewsTickerItem, QuickAccessCard, StatisticCounter,
