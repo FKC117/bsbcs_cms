@@ -7,6 +7,15 @@ from django.http import FileResponse, Http404
 from django.conf import settings
 import re
 from django.core.paginator import Paginator
+from .models import (
+    HeroSection, CarouselItem, NewsTickerItem, QuickAccessCard, StatisticCounter,
+    MemberSpotlight, ResearchHighlight, Event, CallToAction, BoardMember,
+    Committee, Partnership, Award, AnnualReport, ResourceCategory, ResourceItem,
+    Webinar, Member, NavigationLink, OrganizationalValue, TimelineSection
+)
+from .models import ResearchInterestArea, Speciality
+from .forms import MembershipForm
+
 
 def favicon(request):
     favicon_path = os.path.join(settings.BASE_DIR, 'website', 'static', 'img', 'favicon.ico')
@@ -15,14 +24,6 @@ def favicon(request):
     except FileNotFoundError:
         # Return a proper 404 if favicon is missing instead of raising an unhandled exception
         raise Http404("favicon not found")
-from django.shortcuts import render
-from .models import (
-    HeroSection, CarouselItem, NewsTickerItem, QuickAccessCard, StatisticCounter,
-    MemberSpotlight, ResearchHighlight, Event, CallToAction, BoardMember,
-    Committee, Partnership, Award, AnnualReport, ResourceCategory, ResourceItem,
-    Webinar, Member, NavigationLink, OrganizationalValue, TimelineSection
-)
-from .models import ResearchInterestArea, Speciality
 
 
 def extract_youtube_id(url):
@@ -205,7 +206,8 @@ def knowledge_center(request):
 
 def member_directory(request):
     hero = HeroSection.objects.filter(page='member_directory').first()
-    members = Member.objects.all().order_by('order')
+    # Only show members with 'approved' status in the directory
+    members = Member.objects.filter(approval_status='approved').order_by('order')
     # Fetch specialties and research interest areas for the advanced filter dropdowns
     specialities = Speciality.objects.all().order_by('name')
     research_areas = ResearchInterestArea.objects.all().order_by('name')
@@ -450,13 +452,37 @@ def sitemap_table(request):
 
 
 def membership_form(request):
-    """View for membership form submission and creation."""
-    from .forms import MembershipForm
+    """View for membership form submission and creation.
+    
+    Requires:
+    1. User must be logged in (redirects to login if not)
+    2. User must have a UserProfile (redirects to create_profile if not)
+    3. Once both requirements are met, display membership form
+    """
+    from django.shortcuts import redirect
+    from django.urls import reverse
+    from registration.models import UserProfile
+    
+    # Check if user is logged in
+    if not request.user.is_authenticated:
+        # Redirect to login with next parameter pointing back to membership form
+        return redirect(f'{reverse("login")}?next={reverse("website:membership_form")}')
+    
+    # Check if user has a UserProfile
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        # Redirect to create_profile with next parameter pointing back to membership form
+        return redirect(f'{reverse("create_profile")}?next={reverse("website:membership_form")}')
     
     if request.method == 'POST':
         form = MembershipForm(request.POST, request.FILES)
         if form.is_valid():
             member = form.save(commit=False)
+            # Link Member to the user's UserProfile
+            member.user_profile = user_profile
+            # Set approval_status to pending (will be reviewed by admin)
+            member.approval_status = 'pending'
             # Set order to a default high value (can be ordered later in admin)
             member.order = Member.objects.count() + 1
             member.save()
@@ -478,5 +504,6 @@ def membership_form(request):
         'hero': hero,
         'call_to_action': call_to_action,
         'navigation_links': navigation_links,
+        'user_profile': user_profile,
     }
     return render(request, 'pages/membership_form.html', context)

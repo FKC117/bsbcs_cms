@@ -150,10 +150,90 @@ class WebinarAdmin(admin.ModelAdmin):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_specialties', 'get_research_interests', 'location', 'order')
-    list_filter = ('specialties', 'research_interest_areas')
-    ordering = ('order',)
-    search_fields = ('name', 'specialties__name', 'research_interest_areas__name', 'location')
+    list_display = ('get_member_name', 'get_user_email', 'approval_status', 'approved_at', 'created_at', 'order')
+    list_filter = ('approval_status', 'created_at', 'specialties', 'research_interest_areas')
+    readonly_fields = ('created_at', 'updated_at', 'approved_at', 'rejected_at')
+    ordering = ('-created_at',)
+    search_fields = ('user_profile__name', 'user_profile__email', 'institution', 'position')
+    actions = ['approve_members', 'reject_members']
+    
+    fieldsets = (
+        ('User Profile', {
+            'fields': ('user_profile', 'institution', 'position')
+        }),
+        ('Membership Details', {
+            'fields': ('specialties', 'research_interest_areas', 'profile_description', 'image')
+        }),
+        ('Approval Status', {
+            'fields': ('approval_status', 'rejection_reason', 'approved_at', 'rejected_at')
+        }),
+        ('Metadata', {
+            'fields': ('order', 'created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+    def get_member_name(self, obj):
+        return obj.user_profile.name
+    get_member_name.short_description = 'Name'
+
+    def get_user_email(self, obj):
+        return obj.user_profile.email
+    get_user_email.short_description = 'Email'
+
+    def approve_members(self, request, queryset):
+        from django.utils import timezone
+        from django.contrib import messages
+        import logging
+        
+        logger = logging.getLogger(__name__)
+        
+        # Get pending members and iterate to trigger signals
+        pending_members = queryset.filter(approval_status='pending')
+        count = 0
+        
+        for member in pending_members:
+            logger.info(f"[ADMIN ACTION] Approving member: {member.user_profile.name}")
+            member.approval_status = 'approved'
+            member.approved_at = timezone.now()
+            member.save(update_fields=['approval_status', 'approved_at'])
+            logger.info(f"[ADMIN ACTION] Member saved, checking new status: {member.approval_status}")
+            count += 1
+        
+        self.message_user(request, f'{count} member(s) approved and notification emails sent.')
+    approve_members.short_description = 'Approve selected members'
+
+    def reject_members(self, request, queryset):
+        from django.utils import timezone
+        from django.contrib import messages
+        import logging
+        
+        logger = logging.getLogger(__name__)
+        
+        # Get pending members and iterate to trigger signals
+        pending_members = queryset.filter(approval_status='pending')
+        count = 0
+        
+        for member in pending_members:
+            # Check if rejection_reason is filled
+            if not member.rejection_reason:
+                logger.warning(f"[ADMIN ACTION] Member {member.user_profile.name} has no rejection reason")
+                self.message_user(
+                    request,
+                    f'Member {member.user_profile.name} has no rejection reason. Please edit individually to add one.',
+                    messages.WARNING
+                )
+                continue
+            
+            logger.info(f"[ADMIN ACTION] Rejecting member: {member.user_profile.name}")
+            member.approval_status = 'rejected'
+            member.rejected_at = timezone.now()
+            member.save(update_fields=['approval_status', 'rejected_at'])
+            logger.info(f"[ADMIN ACTION] Member saved, checking new status: {member.approval_status}")
+            count += 1
+        
+        self.message_user(request, f'{count} member(s) rejected and notification emails sent.')
+    reject_members.short_description = 'Reject selected members'
 
     def get_specialties(self, obj):
         return ', '.join([s.name for s in obj.specialties.all()])

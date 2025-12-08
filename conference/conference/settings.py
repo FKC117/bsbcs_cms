@@ -160,7 +160,13 @@ EMAIL_PORT = 465 #587 for TLS
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@bsbcs.org')
+
+# Site Configuration
+SITE_NAME = 'BSBCS'
+SITE_URL = 'https://bsbcs.info'
+CONTACT_EMAIL = config('CONTACT_EMAIL', default='contact@bsbcs.org')
 
 # HTTPS Settings
 #SESSION_COOKIE_SECURE = True

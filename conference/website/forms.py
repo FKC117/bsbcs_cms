@@ -1,9 +1,14 @@
 from django import forms
 from .models import Member, Speciality, ResearchInterestArea
+from registration.models import UserProfile
 
 
 class MembershipForm(forms.ModelForm):
-    """Form for submitting/editing member information."""
+    """Form for submitting/editing member information.
+    
+    This form creates or updates a Member record and links it to the logged-in user's UserProfile.
+    User data (name, email, phone) comes from UserProfile, not duplicated in Member.
+    """
     
     specialties = forms.ModelMultipleChoiceField(
         queryset=Speciality.objects.all(),
@@ -22,29 +27,21 @@ class MembershipForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = [
-            'name',
-            'location',
-            'years_of_experience',
-            'profile_description',
-            'image',
             'institution',
             'position',
+            'profile_description',
+            'image',
             'specialties',
             'research_interest_areas',
         ]
         widgets = {
-            'name': forms.TextInput(attrs={
+            'institution': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Full Name',
+                'placeholder': 'Institution/Organization Name',
             }),
-            'location': forms.TextInput(attrs={
+            'position': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'City, Country',
-            }),
-            'years_of_experience': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Years of Experience',
-                'min': '0',
+                'placeholder': 'Job Title/Position',
             }),
             'profile_description': forms.Textarea(attrs={
                 'class': 'form-control',
@@ -54,14 +51,6 @@ class MembershipForm(forms.ModelForm):
             'image': forms.FileInput(attrs={
                 'class': 'form-control',
                 'accept': 'image/*',
-            }),
-            'institution': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Institution/Organization Name',
-            }),
-            'position': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Job Title/Position',
             }),
         }
     

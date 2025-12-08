@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class SiteSettings(models.Model):
@@ -375,22 +376,46 @@ class Webinar(models.Model):
 
 
 class Member(models.Model):
-    name = models.CharField(max_length=255)
-    # 'specialty' (text field) removed in favor of structured ForeignKey `specialty_fk`
-    location = models.CharField(max_length=255, blank=True, null=True)
-    years_of_experience = models.PositiveIntegerField(blank=True, null=True)
-    profile_description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='images/members/', blank=True, null=True)
+    APPROVAL_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+
+    # Link to registration.UserProfile instead of duplicating user data
+    user_profile = models.OneToOneField(
+        'registration.UserProfile',
+        on_delete=models.CASCADE,
+        related_name='member',
+        null=True,
+        blank=True
+    )
+
+    # Membership-specific fields
     institution = models.CharField(max_length=255, blank=True, null=True)
     position = models.CharField(max_length=255, blank=True, null=True)
-    # tags removed; use `research_interest_areas` and dedicated models instead
-    # `specialty_fk` was removed in favor of the `specialties` ManyToManyField.
+    profile_description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='images/members/', blank=True, null=True)
     specialties = models.ManyToManyField(Speciality, blank=True, related_name='members_specialties')
     research_interest_areas = models.ManyToManyField(ResearchInterestArea, blank=True, related_name='members')
+    
+    # Approval workflow fields
+    approval_status = models.CharField(
+        max_length=10,
+        choices=APPROVAL_STATUS_CHOICES,
+        default='pending'
+    )
+    approved_at = models.DateTimeField(blank=True, null=True)
+    rejected_at = models.DateTimeField(blank=True, null=True)
+    rejection_reason = models.TextField(blank=True, null=True)
+    
+    # Metadata
     order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.user_profile.name} ({self.get_approval_status_display()})"
 
     class Meta:
         ordering = ['order']
