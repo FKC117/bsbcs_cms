@@ -232,7 +232,7 @@ class BoardMember(models.Model):
     role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='board_member')
 
     def __str__(self):
-        return f"{self.name} ({self.get_role_display()})"
+        return f"{self.name} ({self.get_role_display()})"  # type: ignore
 
     class Meta:
         ordering = ['order']
@@ -415,7 +415,7 @@ class Member(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user_profile.name} ({self.get_approval_status_display()})"
+        return f"{self.user_profile.name} ({self.get_approval_status_display()})"  # type: ignore
 
     class Meta:
         ordering = ['order']
@@ -442,7 +442,7 @@ class OrganizationalValue(models.Model):
     order = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.get_value_type_display()} - {self.title}"
+        return f"{self.get_value_type_display()} - {self.title}"  # type: ignore
 
     class Meta:
         ordering = ['value_type', 'order']

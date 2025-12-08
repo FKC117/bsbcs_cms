@@ -175,11 +175,11 @@ class MemberAdmin(admin.ModelAdmin):
 
     def get_member_name(self, obj):
         return obj.user_profile.name
-    get_member_name.short_description = 'Name'
+    get_member_name.short_description = 'Name'  # type: ignore
 
     def get_user_email(self, obj):
         return obj.user_profile.email
-    get_user_email.short_description = 'Email'
+    get_user_email.short_description = 'Email'  # type: ignore
 
     def approve_members(self, request, queryset):
         from django.utils import timezone
@@ -201,7 +201,7 @@ class MemberAdmin(admin.ModelAdmin):
             count += 1
         
         self.message_user(request, f'{count} member(s) approved and notification emails sent.')
-    approve_members.short_description = 'Approve selected members'
+    approve_members.short_description = 'Approve selected members'  # type: ignore
 
     def reject_members(self, request, queryset):
         from django.utils import timezone
@@ -233,15 +233,15 @@ class MemberAdmin(admin.ModelAdmin):
             count += 1
         
         self.message_user(request, f'{count} member(s) rejected and notification emails sent.')
-    reject_members.short_description = 'Reject selected members'
+    reject_members.short_description = 'Reject selected members'  # type: ignore
 
     def get_specialties(self, obj):
         return ', '.join([s.name for s in obj.specialties.all()])
-    get_specialties.short_description = 'Specialties'
+    get_specialties.short_description = 'Specialties'  # type: ignore
 
     def get_research_interests(self, obj):
         return ', '.join([r.name for r in obj.research_interest_areas.all()])
-    get_research_interests.short_description = 'Research Interests'
+    get_research_interests.short_description = 'Research Interests'  # type: ignore
 
 
 

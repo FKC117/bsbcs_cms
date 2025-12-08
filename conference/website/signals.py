@@ -36,6 +36,11 @@ def send_member_approval_email(sender, instance, created, update_fields, **kwarg
         logger.info(f"[MEMBER SIGNAL] New Member created: {instance}, skipping email")
         return
     
+    # Only process if approval_status field was actually updated
+    if update_fields and 'approval_status' not in update_fields:
+        logger.info(f"[MEMBER SIGNAL] Member updated but approval_status not in update_fields: {update_fields}")
+        return
+    
     logger.info(f"[MEMBER SIGNAL] Member updated: {instance}, status={instance.approval_status}, update_fields={update_fields}")
     
     # Check if user_profile exists
