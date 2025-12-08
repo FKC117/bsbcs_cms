@@ -39,7 +39,7 @@
             Website</a>
         </span>
         {% if user.is_authenticated %}
-        <span class="text-sm font-semibold leading-6 text-gray-900">Welcome, {{ user_profile.name }}</span>
+        
         <a href="{% url 'user_profile' %}" class="ml-8 text-sm font-semibold leading-6 text-gray-900">Profile</a>
         <span class="ml-2 text-sm font-semibold leading-6 text-gray-900">|</span>
         <a href="{% url 'logout' %}" class="ml-2 text-sm font-semibold leading-6 text-gray-900">Logout</a>

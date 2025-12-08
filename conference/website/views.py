@@ -56,7 +56,18 @@ def homepage(request):
     member_spotlights = MemberSpotlight.objects.filter(is_featured=True).order_by('order')
     # Only show highlights flagged for homepage (highlight=True)
     research_highlights = ResearchHighlight.objects.filter(highlight=True).order_by('order')
-    events = Event.objects.all().order_by('order', 'date')
+    # Prefer registration app's Event model for upcoming events display on homepage
+    try:
+        from registration.models import Event as RegEvent
+    except Exception:
+        RegEvent = Event  # fallback to local Event model
+
+    # Query only upcoming events from the registration app and order by start_date
+    try:
+        events = RegEvent.objects.filter(event_status='upcoming').order_by('start_date')
+    except Exception:
+        # Fallback to the existing local events list if RegEvent doesn't support these fields
+        events = Event.objects.all().order_by('order', 'date')
     # Use the latest CallToAction entry for homepage (most recent).
     # We keep the model's order field available but prefer the latest DB entry
     # so content managers can update the hero CTA by creating a new entry.
@@ -436,3 +447,36 @@ def sitemap_table(request):
         'rows': rows,
     }
     return render(request, 'pages/sitemap_table.html', context)
+
+
+def membership_form(request):
+    """View for membership form submission and creation."""
+    from .forms import MembershipForm
+    
+    if request.method == 'POST':
+        form = MembershipForm(request.POST, request.FILES)
+        if form.is_valid():
+            member = form.save(commit=False)
+            # Set order to a default high value (can be ordered later in admin)
+            member.order = Member.objects.count() + 1
+            member.save()
+            form.save_m2m()  # Save many-to-many relationships
+            
+            # Render success message
+            return render(request, 'pages/membership_success.html', {
+                'member': member,
+            })
+    else:
+        form = MembershipForm()
+    
+    hero = HeroSection.objects.filter(page='member_directory').first()
+    call_to_action = CallToAction.objects.filter(page='member_directory').first()
+    navigation_links = NavigationLink.objects.filter(is_active=True).order_by('order')
+    
+    context = {
+        'form': form,
+        'hero': hero,
+        'call_to_action': call_to_action,
+        'navigation_links': navigation_links,
+    }
+    return render(request, 'pages/membership_form.html', context)

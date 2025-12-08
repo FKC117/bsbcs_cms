@@ -1,0 +1,128 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}Application Submitted - BSBCS{% endblock %}
+
+{% block content %}
+<!-- Success Hero Section with Gradient Background -->
+<div class="relative bg-gradient-to-br from-green-500 via-emerald-500 to-teal-600 text-white py-20 sm:py-24">
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-green-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute -bottom-8 left-20 w-80 h-80 bg-teal-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-2000"></div>
+    </div>
+    <div class="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Success Icon -->
+        <div class="mb-8 flex justify-center">
+            <div class="inline-flex items-center justify-center h-20 w-20 rounded-full bg-white bg-opacity-20 backdrop-blur-lg border-2 border-white border-opacity-30">
+                <svg class="h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            Application Submitted!
+        </h1>
+
+        <p class="text-lg sm:text-xl text-green-100 max-w-xl mx-auto">
+            Thank you for submitting your membership application. We've received your information and will review it shortly.
+        </p>
+    </div>
+</div>
+
+<div class="pt-12 pb-12">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Success Message Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-12 text-center relative z-10 transform -translate-y-16">
+
+            <!-- Member Info Display -->
+            <div class="bg-gradient-to-br from-gray-50 to-green-50 rounded-xl p-8 mb-8 text-left border border-green-100">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-gradient-to-b from-green-500 to-emerald-500 rounded mr-4"></div>
+                    <h2 class="text-xl font-bold text-gray-900">
+                        Your Application Details
+                    </h2>
+                </div>
+                <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="pb-4">
+                        <dt class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Name</dt>
+                        <dd class="text-lg font-semibold text-gray-900 mt-2">{{ member.name }}</dd>
+                    </div>
+                    {% if member.institution %}
+                    <div class="pb-4">
+                        <dt class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Institution</dt>
+                        <dd class="text-lg font-semibold text-gray-900 mt-2">{{ member.institution }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if member.position %}
+                    <div class="pb-4">
+                        <dt class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Position</dt>
+                        <dd class="text-lg font-semibold text-gray-900 mt-2">{{ member.position }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if member.location %}
+                    <div class="pb-4">
+                        <dt class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Location</dt>
+                        <dd class="text-lg font-semibold text-gray-900 mt-2">{{ member.location }}</dd>
+                    </div>
+                    {% endif %}
+                </dl>
+            </div>
+
+            <!-- Info Box -->
+            <div class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-2 border-indigo-200 p-8 rounded-xl mb-8 text-left">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100">
+                            <svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex-grow">
+                        <h3 class="text-lg font-bold text-indigo-900 mb-4">
+                            What happens next?
+                        </h3>
+                        <ul class="text-indigo-800 space-y-3">
+                            <li class="flex items-center">
+                                <svg class="h-5 w-5 text-indigo-600 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="font-medium">We'll review your application within 2-3 business days</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="h-5 w-5 text-indigo-600 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="font-medium">You'll receive a confirmation email once approved</span>
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="h-5 w-5 text-indigo-600 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="font-medium">Your profile will appear in our member directory</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-6 border-t border-gray-200">
+                <a href="{% url 'website:member_directory' %}" class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-lg hover:shadow-lg hover:from-green-600 hover:to-emerald-700 transition duration-300 transform hover:scale-105">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v2h8v-2zM2 15a4 4 0 018 0v2H0v-2z" />
+                    </svg>
+                    View Member Directory
+                </a>
+                <a href="{% url 'website:homepage' %}" class="inline-flex items-center justify-center px-8 py-3 bg-gray-100 text-gray-900 font-semibold rounded-lg hover:bg-gray-200 hover:shadow-lg transition duration-300 border-2 border-gray-300">
+                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

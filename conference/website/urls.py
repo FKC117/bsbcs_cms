@@ -8,6 +8,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('knowledge-center/', views.knowledge_center, name='knowledge_center'),
     path('member-directory/', views.member_directory, name='member_directory'),
+    path('membership-form/', views.membership_form, name='membership_form'),
     # Expose events at /events/ and use URL name 'events'
     path('events/', views.events, name='events'),
     path('research-and-publications/', views.research_and_publications, name='research_and_publications'),

@@ -72,15 +72,12 @@
                 <!-- Auth / Profile links (Desktop) -->
                 <div class="hidden lg:flex items-center gap-4">
                     {% if user.is_authenticated %}
-                        {% if user_profile and user_profile.name %}
-                            <span class="text-sm text-text-secondary">Welcome, {{ user_profile.name }}</span>
-                        {% else %}
-                            <span class="text-sm text-text-secondary">Welcome, {{ user.get_full_name|default:user.username }}</span>
-                        {% endif %}
                         <a href="{% url 'user_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Profile</a>
+                        <span class="ml-2 text-sm font-semibold leading-6 text-gray-900">|</span>
                         <a href="{% url 'logout' %}" class="text-text-secondary hover:text-primary transition-colors">Logout</a>
                     {% else %}
                         <a href="{% url 'create_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Create Profile</a>
+                        <span class="ml-2 text-sm font-semibold leading-6 text-gray-900">|</span>
                         <a href="{% url 'login' %}" class="text-text-secondary hover:text-primary transition-colors">Login</a>
                     {% endif %}
                     
@@ -88,7 +85,7 @@
                     {% if call_to_action and call_to_action.primary_button_text and call_to_action.primary_button_url %}
                         <a href="{{ call_to_action.primary_button_url }}" class="btn-primary">{{ call_to_action.primary_button_text }}</a>
                     {% else %}
-                        <a href="{% url 'website:about' %}" class="btn-primary">Join Society</a>
+                        <a href="{% url 'website:membership_form'%}" class="btn-primary">Join Society</a>
                     {% endif %}
                 </div>
 

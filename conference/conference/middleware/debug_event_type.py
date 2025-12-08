@@ -7,6 +7,7 @@ be a class or doesn't look like a model instance (no `id` attribute).
 """
 
 import logging
+import traceback
 
 try:
     from django.db.models import Model
@@ -98,14 +99,16 @@ class DebugEventMiddleware:
                     path = getattr(request_obj, 'path', None)
                     found = _inspect_context_event(ctx_dict)
                     if found:
+                        stack = ''.join(traceback.format_stack(limit=10))
                         logger.warning("DEBUG_EVENT_CONTEXT: path=%s template=%s", path, tmpl_name)
+                        logger.warning("DEBUG_EVENT_STACK:\n%s", stack)
                 except Exception:
                     logger.exception('DebugEventMiddleware: error inspecting context')
 
                 # Call the original render implementation with all args
-                return original_render(self_tmpl, context, *args, **kwargs)
+                return original_render(self_tmpl, context, *args, **kwargs)  # type: ignore[arg-type]
 
-            Template.render = patched_render
+            Template.render = patched_render  # type: ignore[assignment]
             logger.info("DebugEventMiddleware: patched Template.render")
         except Exception:
             logger.exception('DebugEventMiddleware: failed to patch Template.render')
