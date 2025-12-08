@@ -1,10 +1,9 @@
 from django.urls import reverse, NoReverseMatch
-from .models import SiteSettings, FooterColumn, NavigationLink
+from .models import SiteSettings, NavigationLink
 
 
 def site_settings(request):
     settings = SiteSettings.objects.first()
-    footer_columns = FooterColumn.objects.all().order_by('order').prefetch_related('links')
 
     # Build navigation links with resolved URLs when possible
     navigation_links = []
@@ -20,6 +19,5 @@ def site_settings(request):
 
     return {
         'site_settings': settings,
-        'footer_columns': footer_columns,
         'navigation_links': navigation_links,
     }
