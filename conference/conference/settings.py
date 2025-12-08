@@ -15,7 +15,14 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*']
+# Apache production hosts - include IP, primary domain, and www variant
+ALLOWED_HOSTS = [
+    '163.53.151.197',       # Direct IP access
+    'bsbcs.info',           # Primary domain
+    'www.bsbcs.info',       # www subdomain
+    'localhost',            # Local testing (optional, remove if not needed)
+    '127.0.0.1',           # Loopback (optional, remove if not needed)
+]
 import matplotlib
 matplotlib.use('Agg')
 
