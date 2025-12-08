@@ -166,7 +166,7 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@bsbcs.org')
 # Site Configuration
 SITE_NAME = 'BSBCS'
 SITE_URL = 'https://bsbcs.info'
-CONTACT_EMAIL = config('CONTACT_EMAIL', default='contact@bsbcs.org')
+CONTACT_EMAIL = config('CONTACT_EMAIL', default='info.bsbcs@gmail.com')
 
 # HTTPS Settings
 #SESSION_COOKIE_SECURE = True
