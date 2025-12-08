@@ -192,13 +192,23 @@
                 <div>
                     <h4 class="font-headline font-semibold mb-4 text-white text-sm">Menu</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{% url 'website:homepage' %}" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                        <li><a href="{% url 'website:about' %}" class="text-gray-400 hover:text-white transition-colors">About</a></li>
-                        <li><a href="{% url 'website:member_directory' %}" class="text-gray-400 hover:text-white transition-colors">Members</a></li>
-                        <li><a href="{% url 'website:research_and_publications' %}" class="text-gray-400 hover:text-white transition-colors">Research</a></li>
-                        <li><a href="{% url 'website:knowledge_center' %}" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
-                        <li><a href="{% url 'website:events' %}" class="text-gray-400 hover:text-white transition-colors">Events</a></li>
-                        <li><a href="{% url 'website:webinars' %}" class="text-gray-400 hover:text-white transition-colors">Webinars</a></li>
+                        {% if navigation_links %}
+                            {% for nav in navigation_links %}
+                                {% if nav.url|slice:":4" == "http" or nav.url|slice:":1" == "/" %}
+                                    <li><a href="{{ nav.url }}" class="text-gray-400 hover:text-white transition-colors">{{ nav.label }}</a></li>
+                                {% else %}
+                                    <li><a href="/{{ nav.url }}" class="text-gray-400 hover:text-white transition-colors">{{ nav.label }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <li><a href="{% url 'website:homepage' %}" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                            <li><a href="{% url 'website:about' %}" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                            <li><a href="{% url 'website:member_directory' %}" class="text-gray-400 hover:text-white transition-colors">Members</a></li>
+                            <li><a href="{% url 'website:research_and_publications' %}" class="text-gray-400 hover:text-white transition-colors">Research</a></li>
+                            <li><a href="{% url 'website:knowledge_center' %}" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
+                            <li><a href="{% url 'website:events' %}" class="text-gray-400 hover:text-white transition-colors">Events</a></li>
+                            <li><a href="{% url 'website:webinars' %}" class="text-gray-400 hover:text-white transition-colors">Webinars</a></li>
+                        {% endif %}
                     </ul>
                 </div>
 
