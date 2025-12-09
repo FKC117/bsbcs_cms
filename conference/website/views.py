@@ -104,7 +104,7 @@ def about(request):
     timeline_section = TimelineSection.objects.order_by('order').first()
     timeline_items = []
     if timeline_section:
-        timeline_items = list(timeline_section.items.all())
+        timeline_items = list(timeline_section.items.all())  # type: ignore
     
     # Fetch organizational values grouped by type
     mission = OrganizationalValue.objects.filter(value_type='mission').first()
@@ -125,7 +125,7 @@ def about(request):
                 values_items.append(text)
     elif values.count() == 1:
         single = values.first()
-        desc = (single.description or '').strip()
+        desc = (single.description or '').strip()  # type: ignore
         if desc:
             # split on newlines first
             parts = [p.strip() for p in re.split(r'[\r\n]+', desc) if p.strip()]
@@ -135,8 +135,8 @@ def about(request):
             values_items = parts
         else:
             # no description, use the title as a single item
-            if single.title:
-                values_items = [single.title]
+            if single.title:  # type: ignore
+                values_items = [single.title]  # type: ignore
     
     # Determine a header title and icon for the Values card.
     # Prefer an explicit "Values" meta row when present (title like 'Values' or 'Our Values').
@@ -146,16 +146,16 @@ def about(request):
         # try to find a meta/header row
         header = values.filter(title__iregex=r'^(values|our values?)$').first()
         if header:
-            values_header_title = header.title
-            if header.icon_svg:
-                values_header_icon_url = header.icon_svg.url
+            values_header_title = header.title  # type: ignore
+            if header.icon_svg:  # type: ignore
+                values_header_icon_url = header.icon_svg.url  # type: ignore
         else:
             # no explicit header row: if there's a single row, use its title/icon as header
             if values.count() == 1:
                 single = values.first()
-                values_header_title = single.title or values_header_title
-                if single.icon_svg:
-                    values_header_icon_url = single.icon_svg.url
+                values_header_title = single.title or values_header_title  # type: ignore
+                if single.icon_svg:  # type: ignore
+                    values_header_icon_url = single.icon_svg.url  # type: ignore
             else:
                 # multiple rows and no header candidate: leave generic title and no icon
                 values_header_title = 'Values'
