@@ -42,7 +42,7 @@
                             </svg>
                             <div>
                                 <h1 class="text-xl font-headline font-bold text-primary">BSBCS</h1>
-                                <p class="text-xs text-text-secondary">Breast Cancer Studies</p>
+                                <p class="text-xs text-text-secondary">Bangladesh Society for Breast Cancer Study</p>
                             </div>
                         </a>
                     {% endif %}
@@ -73,11 +73,11 @@
                 <div class="hidden lg:flex items-center gap-4">
                     {% if user.is_authenticated %}
                         <a href="{% url 'user_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Profile</a>
-                        <span class="ml-2 text-sm font-semibold leading-6 text-gray-900">|</span>
+                        <span class="ext-sm font-semibold leading-6 text-gray-900">|</span>
                         <a href="{% url 'logout' %}" class="text-text-secondary hover:text-primary transition-colors">Logout</a>
                     {% else %}
                         <a href="{% url 'create_profile' %}" class="text-text-secondary hover:text-primary transition-colors">Create Profile</a>
-                        <span class="ml-2 text-sm font-semibold leading-6 text-gray-900">|</span>
+                        <span class="text-sm font-semibold leading-6 text-gray-900">|</span>
                         <a href="{% url 'login' %}" class="text-text-secondary hover:text-primary transition-colors">Login</a>
                     {% endif %}
                     

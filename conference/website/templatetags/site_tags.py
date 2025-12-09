@@ -90,6 +90,9 @@ def get_call_to_action_current(context):
     This tag requires request to be available in the template context (Django
     provides it when you use RequestContext or render shortcuts which pass
     the request). Results are cached per view name for CACHE_TIMEOUT seconds.
+    
+    Aliases like 'homepage_alias' are normalized to their primary names ('homepage')
+    to ensure consistent CTA rendering across aliased routes.
     """
     request = context.get('request')
     view_name = None
@@ -98,14 +101,20 @@ def get_call_to_action_current(context):
         if resolver:
             view_name = resolver.url_name
 
-    cache_key = f'call_to_action_current_{view_name or "__latest"}'
+    # Normalize URL aliases to their primary page names
+    # 'homepage_alias' -> 'homepage', etc.
+    page_name = view_name
+    if page_name == 'homepage_alias':
+        page_name = 'homepage'
+
+    cache_key = f'call_to_action_current_{page_name or "__latest"}'
     cached = cache.get(cache_key)
     if cached is not None:
         return cached
 
     cta = None
-    if view_name:
-        cta = CallToAction.objects.filter(page=view_name).order_by('-id').first()
+    if page_name:
+        cta = CallToAction.objects.filter(page=page_name).order_by('-id').first()
 
     # Do not fall back to the most-recent CTA for other pages.
     # If there is no CTA for the current view, return None so templates
