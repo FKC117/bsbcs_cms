@@ -269,7 +269,8 @@ def events(request):
 def research_and_publications(request):
     hero = HeroSection.objects.filter(page='research_and_publications').first()
     stats_counters = StatisticCounter.objects.filter(page='research_and_publications').order_by('order')
-    research_highlights = ResearchHighlight.objects.all().order_by('order')
+    # Only include research highlights that are explicitly flagged as highlighted
+    research_highlights = ResearchHighlight.objects.filter(highlight=True).order_by('order')
     annual_reports = AnnualReport.objects.all().order_by('-year')
     call_to_action = CallToAction.objects.filter(page='research_and_publications').first()
     navigation_links = NavigationLink.objects.filter(is_active=True).order_by('order')
