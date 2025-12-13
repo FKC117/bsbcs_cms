@@ -161,12 +161,12 @@
                 <div class="card hover-lift hover-shadow member-card" data-specialty="{% for s in member.specialties.all %}{{ s.name|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}" data-location="{{ member.location|lower|default:'' }}" data-experience="{{ member.years_of_experience|default:'' }}" data-research="{% for ra in member.research_interest_areas.all %}{{ ra.name|slugify }}{% if not forloop.last %} {% endif %}{% endfor %}" style="{% if forloop.counter > 9 %}display: none;{% endif %}">
                     <div class="flex items-start gap-4 mb-4">
                         {% if member.image %}
-                            <img src="{{ member.image.url }}" alt="{{ member.name }}{% if member.specialties.all %}, {% for s in member.specialties.all %}{{ s.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% if member.years_of_experience %} with {{ member.years_of_experience }} years experience{% endif %}" class="w-20 h-20 rounded-full object-cover border-2 border-primary-200" loading="lazy">
+                            <img src="{{ member.image.url }}" alt="{{ member.user_profile.name }}{% if member.specialties.all %}, {% for s in member.specialties.all %}{{ s.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% if member.years_of_experience %} with {{ member.years_of_experience }} years experience{% endif %}" class="w-20 h-20 rounded-full object-cover border-2 border-primary-200" loading="lazy">
                         {% else %}
-                            <img src="{% static 'img/default-avatar.png' %}" alt="{{ member.name }}" class="w-20 h-20 rounded-full object-cover border-2 border-primary-200" loading="lazy">
+                            <img src="{% static 'img/default-avatar.png' %}" alt="{{ member.user_profile.name }}" class="w-20 h-20 rounded-full object-cover border-2 border-primary-200" loading="lazy">
                         {% endif %}
                         <div class="flex-1">
-                            <h3 class="text-xl font-headline font-semibold text-text-primary mb-1">{{ member.name }}</h3>
+                            <h3 class="text-xl font-headline font-semibold text-text-primary mb-1">{{ member.user_profile.name }}</h3>
                             {% if member.specialties.all %}
                                 <p class="text-sm text-secondary font-semibold mb-2">{% for s in member.specialties.all %}{{ s.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                             {% endif %}
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     
-                    <p class="text-sm text-text-secondary mb-4 leading-relaxed">{{ member.profile_description }}</p>
+                            <p class="text-sm text-text-secondary mb-4 leading-relaxed">{{ member.profile_description }}</p>
                     
                     <div class="flex flex-wrap gap-2 mb-4">
                         {% if member.location %}
